@@ -16,7 +16,7 @@ Additional client settings
     
     ``OneTimeOnly`` the refresh token handle will be updated when refreshing tokens
 ``RefreshTokenExpiration``
-    ``Absolute`` the refresh token will expire on a fixed point in time (specified by the AbsoluteRefreshTokenLifetime)
+    ``Absolute`` the refresh token will expire on a fixed point in time (specified by the AbsoluteRefreshTokenLifetime). This is the default.
     
     ``Sliding`` when refreshing the token, the lifetime of the refresh token will be renewed (by the amount specified in SlidingRefreshTokenLifetime). The lifetime will not exceed `AbsoluteRefreshTokenLifetime`.
 ``UpdateAccessTokenClaimsOnRefresh``
@@ -45,6 +45,8 @@ This will result in a new token response containing a new access token and its e
 (Form-encoding removed and line breaks added for readability)
 
 .. Note:: You can use the `IdentityModel <https://github.com/IdentityModel/IdentityModel>`_ client library to programmatically access the token endpoint from .NET code. For more information check the IdentityModel `docs <https://identitymodel.readthedocs.io/en/latest/client/token.html>`_.
+
+.. Note:: The refresh token, must be valid or an invalid_grant error is returned.  By default, a refresh_token can only be used once.  Using an already used refresh_token will result in an invalid_grant error.
 
 Customizing refresh token behavior
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
