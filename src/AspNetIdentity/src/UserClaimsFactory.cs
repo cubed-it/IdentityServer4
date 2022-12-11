@@ -49,16 +49,15 @@ namespace IdentityServer4.AspNetIdentity
 
             if (_userManager.SupportsUserEmail)
             {
-                var identityEmail = identity.FindFirst(x => x.Type == JwtClaimTypes.Email)?.Value; 
-                var email = identityEmail ?? await _userManager.GetEmailAsync(user);
+                var email = identity.FindFirst(x => x.Type == JwtClaimTypes.Email)?.Value 
+                            ?? await _userManager.GetEmailAsync(user);
                 if (!String.IsNullOrWhiteSpace(email))
                 {
-                    if (String.IsNullOrWhiteSpace(identityEmail))
-                    {
-                        identity.AddClaim(new Claim(JwtClaimTypes.Email, email));
-                    }
-
-                    identity.AddClaim(new Claim(JwtClaimTypes.EmailVerified, await _userManager.IsEmailConfirmedAsync(user) ? "true" : "false", ClaimValueTypes.Boolean));
+                    var emailConfimed = await _userManager.IsEmailConfirmedAsync(user) ? "true" : "false"; 
+                    identity.AddClaims(new[] {
+                        new Claim(JwtClaimTypes.Email, email),
+                        new Claim(JwtClaimTypes.EmailVerified,emailConfimed, ClaimValueTypes.Boolean)
+                    });
                 }
             }
 
