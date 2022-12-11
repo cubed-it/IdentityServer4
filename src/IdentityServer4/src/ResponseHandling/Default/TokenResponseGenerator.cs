@@ -204,7 +204,7 @@ namespace IdentityServer4.ResponseHandling
 
             var oldAccessToken = request.ValidatedRequest.RefreshToken.AccessToken;
             string accessTokenString;
-            Models.Token newAccessToken = null;
+            Token newAccessToken = null;
 
             if (request.ValidatedRequest.Client.UpdateAccessTokenClaimsOnRefresh)
             {
