@@ -901,6 +901,8 @@ namespace IdentityServer.IntegrationTests.Endpoints.Authorize
             _mockPipeline.JwtRequestMessageHandler.OnInvoke = req =>
             {
                 req.RequestUri.Should().Be(new Uri("http://client_jwt"));
+                req.Options.TryGetValue(new HttpRequestOptionsKey<Client>(IdentityServerConstants.JwtRequestClientKey),
+                    out _).Should().Be(true);
                 return Task.CompletedTask;
             };
             _mockPipeline.JwtRequestMessageHandler.Response.Content = new StringContent(requestJwt);
